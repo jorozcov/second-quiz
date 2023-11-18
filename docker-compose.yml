@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  frontend:
+    build: ./second-quiz
+    ports:
+      - "9000:8080"
+    volumes:
+      - ./second-quiz:/app
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - frontend

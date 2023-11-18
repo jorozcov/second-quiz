@@ -1,0 +1,57 @@
+## Bash commands
+
+## Front
+
+### Install Images
+### Node
+
+docker pull node
+
+### Build Docker Image of Vuejs app in the second-quiz directory
+
+docker build -t vuejs-app .
+
+### Run Vuejs app in a container in port 9000
+
+docker run -it -p 9000:8080 --rm --name vuejs-app-1 vuejs-app
+
+### Run docker compose 
+
+docker compose up
+
+docker compose down
+
+### Rebuild (if something changes)
+
+docker-compose down
+docker-compose up --build
+
+
+### Docker compose for dev
+
+docker-compose -f docker-compose-dev.yml up
+
+docker-compose -f docker-compose-dev.yml down
+
+### Install d3js
+npm install d3
+
+## Back in the backend directory
+
+### Activate enviroment 
+demo-env\Scripts\activate.bat
+
+### Launh in port 8000
+uvicorn main:app
+
+### Deactivate enviroment
+demo-env\Scripts\deactivate.bat
+
+## Backend docker
+
+docker pull python
+
+
+
+
+
