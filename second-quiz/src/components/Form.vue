@@ -33,6 +33,7 @@
     </form>
     <div class="button-container">
         <button @click="onClick()" class="btn btn-orange"> Save Query </button>
+        <button @click="Clear()" class="btn btn-red"> Clear </button>
     </div>
     </div>
 
@@ -80,6 +81,7 @@ export default {
                 this.WeightTo = 3500;
             }
 
+            //Arise alert if there is any invalid input
             if(this.WeeksFrom > this.WeeksTo){
                 alert('Weeks From must be less than Weeks To');
                 return;
@@ -95,6 +97,7 @@ export default {
                 return;
             }
 
+            //Create query object
             const query = {
                 WeeksFrom: this.WeeksFrom,
                 WeeksTo: this.WeeksTo,
@@ -104,16 +107,21 @@ export default {
                 WeightTo: this.WeightTo
             }
             
+            //Pass query object to the parent component
             this.$emit('submit', query);
+        },
+        onClick() {
+            //Toggle the save query form
+            this.$emit('toggle-save-query');
+        },
+        Clear() {
+            //Clear all the fields
             this.WeeksFrom = '';
             this.WeeksTo = '';
             this.AgeFrom = '';
             this.AgeTo = '';
             this.WeightFrom = '';
             this.WeightTo = '';
-        },
-        onClick() {
-            this.$emit('toggle-save-query');
         }
     }
 }
@@ -163,6 +171,7 @@ select {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    justify-content: space-evenly; /* Adjust as needed */
 }
 .btn {
     background-color: #4CAF50;
@@ -188,6 +197,14 @@ select {
 
 .btn-orange:hover {
     background: #ff9100;
+}
+
+.btn-red {
+    background-color: rgb(210, 46, 60); 
+}
+
+.btn-red:hover {
+    background: #ff002f;
 }
 
 /* Additional styling for better spacing and alignment */

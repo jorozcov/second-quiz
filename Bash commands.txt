@@ -51,6 +51,11 @@ demo-env\Scripts\deactivate.bat
 
 docker pull python
 
+## MySQL
+
+docker pull mysql
+
+docker run -d -p33060:3306 --name mysql-db -e MYSQL_ROOT_PASSWORD=fellowship mysql
 
 
 

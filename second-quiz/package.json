@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "jsondb": "json-server --watch db.json --port 5000"
   },
   "dependencies": {
     "core-js": "^3.8.3",
     "d3": "^7.8.5",
+    "json-server": "^0.17.4",
     "vue": "^3.2.13"
   },
   "devDependencies": {

@@ -1,0 +1,36 @@
+{
+  "queries": [
+    {
+      "id": 1,
+      "User": {
+        "Username": "user1",
+        "Name": "First Query",
+        "Comment": "My first query"
+      },
+      "Query": {
+        "WeeksFrom": 35,
+        "WeeksTo": 40,
+        "AgeFrom": 30,
+        "AgeTo": 34,
+        "WeightFrom": 3000,
+        "WeightTo": 3500
+      }
+    },
+    {
+      "id": 2,
+      "User": {
+        "Username": "user2",
+        "Name": "Second Query",
+        "Comment": "My second query"
+      },
+      "Query": {
+        "WeeksFrom": 30,
+        "WeeksTo": 40,
+        "AgeFrom": 25,
+        "AgeTo": 34,
+        "WeightFrom": 3300,
+        "WeightTo": 3500
+      }
+    }
+  ]
+}

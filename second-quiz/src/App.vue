@@ -1,14 +1,30 @@
 <template>
-  <div class = "main-container">
-    <div class="container-sec">
-      <Header title="Query for County Natality"/>
-      <Form @toggle-save-query = "toggleSaveQuery" @submit="submission"/>
-      <div v-show="showSaveQuery">
-        <FormSave @toggle-cancel-query = "toggleCancelQuery"/>
+  <div>
+    <header class="page-header"> Consulting Natality 2016 - 2018 </header>
+    <div class = "main-container">
+      <div class="container-sec">
+        <Header title="Query form"/>
+        <Form @toggle-save-query = "toggleSaveQuery" @submit="submission"/>
+        <div v-show="showSaveQuery">
+          <FormSave @toggle-cancel-query = "toggleCancelQuery" @submitSaveQuery="saveQuery"/>
+        </div>
+        <Queries :queries="queries"/>
       </div>
-    </div>
-    <div class="container-sec">
-      <MainChart :info_chart="info_chart"/>
+      <div class="container-sec">
+        <p class="welcome-text">
+            Welcome to our <span class="highlight">World Births Visualization</span> platform! 
+            Here, you can explore the World Births Dataset by filling out the form with your specific parameters 
+            such as age range, weight range, and weeks. Once you submit the form, 
+            a dynamic <span class="highlight">pie chart</span> will be generated, providing a visual representation 
+            of birth data from <span class="highlight">2016 to 2018</span> based on your selected criteria. 
+            Additionally, you can save your submission by clicking on the "<span class="highlight">Save Query</span>" button and
+            filling up the form. Also below those forms, you can find a list of saved queries 
+            with details about each query, allowing you to revisit and compare different sets of birth data. 
+            Explore the fascinating world of global births with our intuitive and interactive visualization tool.
+        </p>
+
+        <MainChart :info_chart="info_chart"/>
+      </div>
     </div>
   </div>
 </template>
@@ -18,6 +34,16 @@ import Header from './components/Header.vue'
 import Form from './components/Form.vue'
 import FormSave from './components/FormSave.vue'
 import MainChart from './components/MainChart.vue'
+import Queries from './components/Queries.vue'
+
+//Define as a global variable the values of the query so that they can be used in the save query
+// Default values
+var WeeksFrom = 35;
+var WeeksTo = 40;
+var AgeFrom = 25;
+var AgeTo = 34;
+var WeightFrom = 3000;
+var WeightTo = 3500;
 
 export default {
   name: 'App',
@@ -25,13 +51,18 @@ export default {
     Header,
     Form,
     FormSave,
-    MainChart
+    MainChart,
+    Queries
   },
   data () {
     return {
       showSaveQuery: false,
-      info_chart: ''
+      info_chart: '',
+      queries: []
     }
+  },
+  async created() {
+    this.queries = await this.fetchQueries();
   },
   methods: {
     toggleSaveQuery() {
@@ -52,12 +83,12 @@ export default {
           query.WeightTo !== undefined
         ) {
           // Convert values to integers
-          const WeeksFrom = parseInt(query.WeeksFrom);
-          const WeeksTo = parseInt(query.WeeksTo);
-          const AgeFrom = parseInt(query.AgeFrom);
-          const AgeTo = parseInt(query.AgeTo);
-          const WeightFrom = parseInt(query.WeightFrom);
-          const WeightTo = parseInt(query.WeightTo);
+          WeeksFrom = parseInt(query.WeeksFrom);
+          WeeksTo = parseInt(query.WeeksTo);
+          AgeFrom = parseInt(query.AgeFrom);
+          AgeTo = parseInt(query.AgeTo);
+          WeightFrom = parseInt(query.WeightFrom);
+          WeightTo = parseInt(query.WeightTo);
 
           fetch(`http://localhost:8000/${WeeksFrom}_${WeeksTo}_${AgeFrom}_${AgeTo}_${WeightFrom}_${WeightTo}`)
             .then(response => response.json())
@@ -71,6 +102,40 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    async saveQuery(User){
+      const res = await fetch('api/queries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          User: {
+            Username: User.Username,
+            Name: User.Name,
+            Comment: User.Comment
+          },
+          Query: {
+            WeeksFrom: WeeksFrom,
+            WeeksTo: WeeksTo,
+            AgeFrom: AgeFrom,
+            AgeTo: AgeTo,
+            WeightFrom: WeightFrom,
+            WeightTo: WeightTo
+          }
+        })
+      })
+
+      const data = await res.json();
+
+      // Save the query in the database
+      this.queries = [...this.queries, data];
+      this.showSaveQuery = false;
+    },
+    async fetchQueries(){
+      const res = await fetch('api/queries');
+      const data = await res.json();
+      return data;
     }
   },
 }
@@ -97,6 +162,26 @@ body {
 .container-sec {
     flex: 1;
     padding: 20px; /* Adjust padding as needed */
-    border: 1px solid #ccc; /* Optional: Add a border for visual separation */
-  }
+}
+
+.page-header {
+  background-color: #3ca64c;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.welcome-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.highlight {
+    color: #327d3d;
+    font-weight: bold;
+}
 </style>

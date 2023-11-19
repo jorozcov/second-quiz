@@ -13,6 +13,9 @@ COPY package*.json ./
 # Install project dependencies
 RUN npm install
 
+#Install json-server
+RUN npm i json-server
+
 # Copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
@@ -22,6 +25,5 @@ RUN npm run build
 # Expose port 8080
 EXPOSE 8080
 
-# Start the Vue.js server
-CMD ["npm", "run", "serve"]
-
+# Start both Vue.js server and JSON server
+CMD npm run serve & npm run jsondb

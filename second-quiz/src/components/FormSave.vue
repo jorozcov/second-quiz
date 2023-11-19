@@ -1,31 +1,36 @@
 <template>
-    <!-- Form with Username, name and comment-->
-    <form @submit = "onSubmit"  class = "SaveQuery">
-        <div class = "FormSaveQuery">
-            <div class="form-group">
-                <label>Username</label>
-                <div>
-                    <input type="text" v-model="Username" name = "Username" placeholder="Username" />
+    <div>
+        <!-- Form with Username, name and comment-->
+        <form @submit = "onSubmit"  class = "SaveQuery">
+            <div class = "FormSaveQuery">
+                <div class="form-group">
+                    <label>Username</label>
+                    <div>
+                        <input type="text" v-model="Username" name = "Username" placeholder="Username" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <div>
+                        <input type="text" v-model="Name" name = "Name" placeholder="Name" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Comment</label>
+                    <div>
+                        <input type="text" v-model="Comment" name = "Comment" placeholder="Comment" />
+                    </div>
+                </div>
+                <div class="button-container">
+                    <input type = "submit" value = "Save Query" class="btn btn-primary"/>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Name</label>
-                <div>
-                    <input type="text" v-model="Name" name = "Name" placeholder="Name" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Comment</label>
-                <div>
-                    <input type="text" v-model="Comment" name = "Comment" placeholder="Comment" />
-                </div>
-            </div>
-            <div class="button-container">
-                <input type = "submit" value = "Save Query" class="btn btn-primary"/>
-                <button @click="onClick()" class="btn btn-red"> Cancel </button>
-            </div>
+        </form>
+
+        <div class="button-container">
+            <button @click="onClick()" class="btn btn-red"> Cancel </button>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -44,22 +49,29 @@ export default {
         onSubmit(e) {
             e.preventDefault();
 
+            //Arise alert if one of the fields is empty
             if(this.Username == ""){
                 alert("Username is required");
+                return;
             }
             if (this.Name == ""){
                 alert("Name is required");
+                return;
             }
             if (this.Comment == ""){
                 alert("Comment is required");
+                return;
             }
             
-            const query = {
+            //Create query object
+            const User = {
                 Username: this.Username,
                 Name: this.Name,
                 Comment: this.Comment
             }
-            this.$emit('submitSaveQuery', query);
+            //Emit the query to the parent component
+            this.$emit('submitSaveQuery', User);
+            //Clear the fields
             this.Username = '';
             this.Name = '';
             this.Comment = '';
@@ -128,7 +140,7 @@ input[type="text"] {
 }
 
 .btn-red {
-    background-color: rgb(210, 46, 60); /* Orange color */
+    background-color: rgb(210, 46, 60); 
 }
 
 .btn-red:hover {
