@@ -77,6 +77,7 @@ export default {
             this.Comment = '';
         },
         onClick() {
+            //Emit the cancel event to the parent component
             this.$emit('toggle-cancel-query');
         }
     }

@@ -15,14 +15,18 @@ updated() {
 },
 methods: {
     createPieChart() {
+    // Parse data from JSON string
     const data = JSON.parse(this.info_chart);
 
+    // Set dimensions and radius of pie chart
     const width = 400;
     const height = 400;
     const radius = Math.min(width, height) / 2;
-
+    
+    // Define color scale
     const color = d3.scaleOrdinal(d3.schemeCategory10);
-
+    
+    // Define arc and pie
     const arc = d3.arc()
         .outerRadius(radius - 10)
         .innerRadius(0);
@@ -34,6 +38,7 @@ methods: {
     // Clear existing content
     d3.select(this.$refs.chart).select('svg').remove();
 
+    // Create SVG element
     const svg = d3.select(this.$refs.chart)
         .append('svg')
         .attr('width', width)
@@ -41,15 +46,18 @@ methods: {
         .append('g')
         .attr('transform', `translate(${width / 2},${height / 2})`);
 
+    // Add g element to each arc
     const g = svg.selectAll('.arc')
         .data(pie(data))
         .enter().append('g')
         .attr('class', 'arc');
 
+    // Add path to each arc
     g.append('path')
         .attr('d', arc)
         .style('fill', d => color(d.data.Year));
-
+    
+    // Add text to each arc
     g.append('text')
         .attr('transform', d => `translate(${arc.centroid(d)})`)
         .attr('dy', '.35em')
@@ -64,7 +72,6 @@ methods: {
 .chart-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh; /* Optional: Adjust the height to your preference */
+  height: 100vh; 
 }
 </style>

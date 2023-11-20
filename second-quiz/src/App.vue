@@ -11,8 +11,10 @@
         <Queries :queries="queries"/>
       </div>
       <div class="container-sec">
+        <h2 class="title"> Welcome </h2>
+
         <p class="welcome-text">
-            Welcome to our <span class="highlight">World Births Visualization</span> platform! 
+            Welcome to the <span class="highlight">World Births Visualization</span> platform! 
             Here, you can explore the World Births Dataset by filling out the form with your specific parameters 
             such as age range, weight range, and weeks. Once you submit the form, 
             a dynamic <span class="highlight">pie chart</span> will be generated, providing a visual representation 
@@ -20,8 +22,10 @@
             Additionally, you can save your submission by clicking on the "<span class="highlight">Save Query</span>" button and
             filling up the form. Also below those forms, you can find a list of saved queries 
             with details about each query, allowing you to revisit and compare different sets of birth data. 
-            Explore the fascinating world of global births with our intuitive and interactive visualization tool.
+            Explore the fascinating world of global births with an intuitive and interactive visualization tool.
         </p>
+
+        <h2 class="title"> Pie Chart </h2>
 
         <MainChart :info_chart="info_chart"/>
       </div>
@@ -62,6 +66,7 @@ export default {
     }
   },
   async created() {
+    // Fetch queries from database
     this.queries = await this.fetchQueries();
   },
   methods: {
@@ -90,6 +95,7 @@ export default {
           WeightFrom = parseInt(query.WeightFrom);
           WeightTo = parseInt(query.WeightTo);
 
+          // Fetch data from API
           fetch(`http://localhost:8000/${WeeksFrom}_${WeeksTo}_${AgeFrom}_${AgeTo}_${WeightFrom}_${WeightTo}`)
             .then(response => response.json())
             .then(data => {
@@ -133,6 +139,7 @@ export default {
       this.showSaveQuery = false;
     },
     async fetchQueries(){
+      // Fetch queries from database
       const res = await fetch('api/queries');
       const data = await res.json();
       return data;
@@ -183,5 +190,14 @@ body {
 .highlight {
     color: #327d3d;
     font-weight: bold;
+}
+
+.title {
+    text-align: center;
+    color: #333; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 2em; 
+    margin-top: 30px;
+    margin-bottom: 30px; 
 }
 </style>

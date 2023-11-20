@@ -17,6 +17,7 @@ export default {
         Query
     },
     props: {
+        // Array of queries from App.vue
         queries: Array
     }
 }   
