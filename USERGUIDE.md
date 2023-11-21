@@ -39,6 +39,8 @@ Right below the forms you will see a list that contains all queries that have be
 ![Saved Queries](images/savedQueries.jpeg)
 
 
-### Informative video
+### Explainer video
 
 If you want to know more about the webpage check out this video:
+
+[Explainer Video on YouTube](https://youtu.be/Axbq1UJDG1w)
